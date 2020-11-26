@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ServiceQueue extends AbstractActor {
-    private static final Logger log = LoggerFactory.getLogger(ServiceQueue.class);
+//    private static final Logger log = LoggerFactory.getLogger(ServiceQueue.class);
     private static final String QUEUES = "queues";
     private static final StopSignal STOP = new StopSignal();
     private static final long SCHEDULED_STOP = 500;
@@ -69,13 +69,13 @@ public class ServiceQueue extends AbstractActor {
                     ActorRef worker = system.actorOf(WorkerQueue.props(def, getSelf(), n), getSelf().path().name()+"@"+n);
                     workers.add(worker);
                 }
-                log.info("{} {} with {} instance{} started", def.isPrivate()? "PRIVATE" : "PUBLIC",
-                        route, instances, instances == 1 ? "" : "s");
+//                log.info("{} {} with {} instance{} started", def.isPrivate()? "PRIVATE" : "PUBLIC",
+//                        route, instances, instances == 1 ? "" : "s");
             }
 
         }).match(ReadySignal.class, signal -> {
             if (!stopped) {
-                log.debug(getSender().path().name() + " is ready");
+//                log.debug(getSender().path().name() + " is ready");
                 pool.offer(getSender());
                 if (buffering) {
                     try {
@@ -93,7 +93,7 @@ public class ServiceQueue extends AbstractActor {
                         }
                     } catch (IOException e) {
                         // this should not happen
-                        log.error("Unable to read elastic queue " + elasticQueue.getId(), e);
+//                        log.error("Unable to read elastic queue " + elasticQueue.getId(), e);
                     }
                 }
             }
@@ -123,7 +123,7 @@ public class ServiceQueue extends AbstractActor {
             if (!stopped) {
                 // stop processing events
                 stopped = true;
-                log.debug("Stopping {} with {} of {} workers in pool", getSelf().path().name(), pool.size(), workers.size());
+//                log.debug("Stopping {} with {} of {} workers in pool", getSelf().path().name(), pool.size(), workers.size());
                 // stop workers
                 for (ActorRef w: workers) {
                     w.tell(STOP, ActorRef.noSender());
@@ -148,7 +148,7 @@ public class ServiceQueue extends AbstractActor {
         }
         // remove elastic queue folder
         elasticQueue.destroy();
-        log.info("{} stopped", getSelf().path().name());
+//        log.info("{} stopped", getSelf().path().name());
     }
 
 }

@@ -27,12 +27,12 @@ import java.io.IOException;
 
 @CloudConnector(name="event.node")
 public class EventNodeSetup implements CloudSetup {
-    private static final Logger log = LoggerFactory.getLogger(EventNodeSetup.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventNodeSetup.class);
 
     @Override
     public void initialize() {
         try {
-            log.info("Connecting to event node");
+//            log.info("Connecting to event node");
             // connect to event node
             ServerPersonality personality = ServerPersonality.getInstance();
             // set personality to APP automatically
@@ -50,7 +50,7 @@ public class EventNodeSetup implements CloudSetup {
                     (headers, body, instance) -> PostOffice.EVENT_NODE, 1);
 
         } catch (IOException e) {
-            log.error("Cloud setup exception - {}", e.getMessage());
+//            log.error("Cloud setup exception - {}", e.getMessage());
         }
     }
 

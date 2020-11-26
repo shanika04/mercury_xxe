@@ -26,7 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class InboxListener extends AbstractActor {
-    private static final Logger log = LoggerFactory.getLogger(InboxListener.class);
+//    private static final Logger log = LoggerFactory.getLogger(InboxListener.class);
 
     public static Props props() {
         return Props.create(InboxListener.class, () -> new InboxListener());
@@ -42,8 +42,8 @@ public class InboxListener extends AbstractActor {
         }).build();
     }
 
-    @Override
-    public void postStop() {
-        log.debug("Temporary inbox {} closed", getSelf().path().name());
-    }
+//    @Override
+//    public void postStop() {
+//        log.debug("Temporary inbox {} closed", getSelf().path().name());
+//    }
 }

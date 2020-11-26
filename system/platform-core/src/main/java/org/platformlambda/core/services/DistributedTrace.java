@@ -32,7 +32,7 @@ import java.util.Map;
 @EventInterceptor
 @ZeroTracing
 public class DistributedTrace implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(DistributedTrace.class);
+//    private static final Logger log = LoggerFactory.getLogger(DistributedTrace.class);
 
     private static final String DISTRIBUTED_TRACING = "distributed.trace.processor";
     private static final long INTERVAL = 5000;
@@ -55,7 +55,7 @@ public class DistributedTrace implements LambdaFunction {
         }
         if (body instanceof EventEnvelope) {
             EventEnvelope trace = (EventEnvelope) body;
-            log.info("trace={}, annotations={}", trace.getHeaders(), trace.getBody());
+//            log.info("trace={}, annotations={}", trace.getHeaders(), trace.getBody());
             if (found) {
                 EventEnvelope event = new EventEnvelope();
                 event.setTo(processor).setBody(trace.getBody());
@@ -66,7 +66,7 @@ public class DistributedTrace implements LambdaFunction {
                 try {
                     PostOffice.getInstance().send(event);
                 } catch (Exception e) {
-                    log.warn("Unable to relay trace to {} - {}", processor, e.getMessage());
+//                    log.warn("Unable to relay trace to {} - {}", processor, e.getMessage());
                 }
             }
         }

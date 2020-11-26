@@ -28,7 +28,7 @@ import java.io.File;
 import java.security.KeyPair;
 
 public class ServerPersonality {
-    private static final Logger log = LoggerFactory.getLogger(ServerPersonality.class);
+//    private static final Logger log = LoggerFactory.getLogger(ServerPersonality.class);
 
     private static CryptoApi crypto = new CryptoApi();
     private static final ServerPersonality instance = new ServerPersonality();
@@ -85,7 +85,7 @@ public class ServerPersonality {
         }
         this.type = type;
         loadKeyPair();
-        log.info("Setting personality as {}", type);
+//        log.info("Setting personality as {}", type);
     }
 
     public byte[] getPublicKey() {
@@ -117,14 +117,14 @@ public class ServerPersonality {
                 // save private key
                 privateKey = crypto.getEncodedPrivateKey(kp);
                 util.str2file(priFile, crypto.writePem(privateKey, "rsa private key"));
-                log.info("RSA keypair generated");
+//                log.info("RSA keypair generated");
             }
             // save public key so it is easy to do application development and end-to-end platform tests locally
             File pk = this.type == Type.PLATFORM ?
                     new File(util.getEventNodeCredentials(), pubName) : new File(util.getLambdaCredentials(), pubName);
             if (!pk.exists()) {
                 util.str2file(pk, crypto.writePem(publicKey, "rsa public key"));
-                log.info("Public key saved {}", pk);
+//                log.info("Public key saved {}", pk);
             }
         }
     }
@@ -132,9 +132,9 @@ public class ServerPersonality {
     private void ensureDirExists(File dir) {
         if (!dir.exists()) {
             if (dir.mkdirs()) {
-                log.info("Created {}", dir);
+//                log.info("Created {}", dir);
             } else {
-                log.error("Unable to create {}", dir);
+//                log.error("Unable to create {}", dir);
             }
         }
     }

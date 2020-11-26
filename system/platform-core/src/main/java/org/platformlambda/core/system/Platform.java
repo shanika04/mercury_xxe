@@ -41,7 +41,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 
 public class Platform {
-    private static final Logger log = LoggerFactory.getLogger(Platform.class);
+//    private static final Logger log = LoggerFactory.getLogger(Platform.class);
     private static final ManagedCache cache = ManagedCache.createCache("system.log.cache", 30000);
     private static final CryptoApi crypto = new CryptoApi();
 
@@ -72,7 +72,7 @@ public class Platform {
                 register(getRouteManagerName(), new RouteSubstitutionManager(), 1);
             }
         } catch (IOException e) {
-            log.error("Unable to create {} - {}", STREAM_MANAGER, e.getMessage());
+//            log.error("Unable to create {} - {}", STREAM_MANAGER, e.getMessage());
         }
     }
 
@@ -133,19 +133,19 @@ public class Platform {
                     List<Class<?>> services = scanner.getAnnotatedClasses(CloudService.class, true);
                     for (String name: list) {
                         if (loaded.contains(name)) {
-                            log.error("Cloud service ({}) already loaded", name);
+//                            log.error("Cloud service ({}) already loaded", name);
                         } else {
                             if (startService(name, services, false)) {
                                 loaded.add(name);
                             } else {
-                                log.error("Cloud service ({}) not found", name);
+//                                log.error("Cloud service ({}) not found", name);
                             }
                         }
                     }
                     if (loaded.isEmpty()) {
-                        log.warn("No Cloud services are loaded");
+//                        log.warn("No Cloud services are loaded");
                     } else {
-                        log.info("Cloud services {} started", loaded);
+//                        log.info("Cloud services {} started", loaded);
                     }
                 }
             }
@@ -173,7 +173,7 @@ public class Platform {
             SimpleClassScanner scanner = SimpleClassScanner.getInstance();
             List<Class<?>> services = scanner.getAnnotatedClasses(CloudConnector.class, true);
             if (!startService(name, services, true)) {
-                log.error("Cloud connector ({}) not found", name);
+//                log.error("Cloud connector ({}) not found", name);
             }
         }
     }
@@ -200,7 +200,7 @@ public class Platform {
                     if (o instanceof CloudSetup) {
                         CloudSetup cloud = (CloudSetup) o;
                         new Thread(()-> {
-                            log.info("Starting cloud {} {} using {}", isConnector? "connector" : "service", name, cls.getName());
+//                            log.info("Starting cloud {} {} using {}", isConnector? "connector" : "service", name, cls.getName());
                             cloud.initialize();
                             /*
                              * For wrapper, the system will execute original connector or service after initialization.
@@ -211,14 +211,14 @@ public class Platform {
                         }).start();
                         return true;
                     } else {
-                        log.error("Unable to start cloud {} ({}) because it does not inherit {}",
-                                isConnector? "connector" : "service",
-                                cls.getName(), CloudSetup.class.getName());
+//                        log.error("Unable to start cloud {} ({}) because it does not inherit {}",
+//                                isConnector? "connector" : "service",
+//                                cls.getName(), CloudSetup.class.getName());
                     }
 
                 } catch (InstantiationException  | IllegalAccessException e) {
-                    log.error("Unable to start cloud {} ({}) - {}",
-                            isConnector? "connector" : "service", cls.getName(), e.getMessage());
+//                    log.error("Unable to start cloud {} ({}) - {}",
+//                            isConnector? "connector" : "service", cls.getName(), e.getMessage());
                 }
                 break;
             }
@@ -269,7 +269,7 @@ public class Platform {
         }
         // set it to public
         service.setPrivate(false);
-        log.info("Converted {} to PUBLIC", route);
+//        log.info("Converted {} to PUBLIC", route);
         if (ServerPersonality.getInstance().getType() != ServerPersonality.Type.PLATFORM) {
             advertiseRoute(route);
         }
@@ -419,13 +419,13 @@ public class Platform {
         if (!cache.exists(hash)) {
             cache.put(hash, true);
             if (level.equals("error")) {
-                log.warn(message);
+//                log.warn(message);
             }
             if (level.equals("warn")) {
-                log.warn(message);
+//                log.warn(message);
             }
             if (level.equals("info")) {
-                log.info(message);
+//                log.info(message);
             }
         }
     }

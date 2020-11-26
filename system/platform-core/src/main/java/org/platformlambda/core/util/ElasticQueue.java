@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ElasticQueue {
-    private static final Logger log = LoggerFactory.getLogger(ElasticQueue.class);
+//    private static final Logger log = LoggerFactory.getLogger(ElasticQueue.class);
 
     private static final Utility util = Utility.getInstance();
 
@@ -132,7 +132,7 @@ public class ElasticQueue {
                 empty = false;
             } catch (IOException e) {
                 // this should not happen
-                log.error("Event lost. Unable to persist {} to {} - {}", id, f.getPath(), e.getMessage());
+//                log.error("Event lost. Unable to persist {} to {} - {}", id, f.getPath(), e.getMessage());
             }
         }
 

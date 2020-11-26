@@ -28,7 +28,7 @@ import java.io.*;
 import java.util.*;
 
 public class ConfigReader implements ConfigBase {
-    private static final Logger log = LoggerFactory.getLogger(ConfigReader.class);
+//    private static final Logger log = LoggerFactory.getLogger(ConfigReader.class);
 
     private static final String CLASSPATH = "classpath:";
     private static final String FILEPATH = "file:";
@@ -180,7 +180,7 @@ public class ConfigReader implements ConfigBase {
                     if (part1.length() > 0 && part2.length() > 0) {
                         result.put(part2, part1);
                     } else {
-                        log.error("Invalid environment variable definition {}, format SOME_VAR:some.var", s);
+//                        log.error("Invalid environment variable definition {}, format SOME_VAR:some.var", s);
                     }
                 } else {
                     // default mapping: variable name = Environment Variable to lower case and replace UNDERSCORE with DOT characters
@@ -204,7 +204,7 @@ public class ConfigReader implements ConfigBase {
         for (Object k: keys) {
             Object v = raw.get(k);
             if (!(k instanceof String)) {
-                log.warn("key {} converted to String", k);
+//                log.warn("key {} converted to String", k);
                 raw.remove(k);
                 raw.put(k.toString(), v);
             }

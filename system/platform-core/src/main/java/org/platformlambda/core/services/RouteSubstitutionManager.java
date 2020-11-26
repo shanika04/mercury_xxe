@@ -32,7 +32,7 @@ import java.util.Map;
 
 @ZeroTracing
 public class RouteSubstitutionManager implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(RouteSubstitutionManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(RouteSubstitutionManager.class);
 
     private static final String SUBSYSTEM = "subsystem";
     private static final String ROUTE_SUBSTITUTION = "route_substitution";
@@ -56,8 +56,8 @@ public class RouteSubstitutionManager implements LambdaFunction {
                 if (!Platform.getInstance().getOrigin().equals(headers.get(ORIGIN))) {
                     if (MERGE.equals(headers.get(TYPE)) && body instanceof Map) {
                         Map<String, String> entries = (Map<String, String>) body;
-                        log.info("Merging {} route substitution {} with {}",
-                                entries.size(), entries.size() == 1? "entry" : "entries", headers.get(ORIGIN));
+//                        log.info("Merging {} route substitution {} with {}",
+//                                entries.size(), entries.size() == 1? "entry" : "entries", headers.get(ORIGIN));
                         for (String r: entries.keySet()) {
                             po.addRouteSubstitution(r, entries.get(r));
                         }
@@ -68,7 +68,7 @@ public class RouteSubstitutionManager implements LambdaFunction {
                     // broadcast my route substitution to other application instances of this module
                     Map<String, String> entries = po.getRouteSubstitutionList();
                     if (!entries.isEmpty()) {
-                        log.info("Sending route substitution table to other application instances of this module");
+//                        log.info("Sending route substitution table to other application instances of this module");
                         po.broadcast(platform.getRouteManagerName(), entries,
                                 new Kv(SUBSYSTEM, ROUTE_SUBSTITUTION),
                                 new Kv(TYPE, MERGE), new Kv(ORIGIN, platform.getOrigin()));

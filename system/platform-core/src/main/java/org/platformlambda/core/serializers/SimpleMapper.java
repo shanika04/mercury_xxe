@@ -30,7 +30,7 @@ import java.math.BigInteger;
 import java.util.*;
 
 public class SimpleMapper {
-    private static final Logger log = LoggerFactory.getLogger(SimpleMapper.class);
+//    private static final Logger log = LoggerFactory.getLogger(SimpleMapper.class);
 
     private static final String SNAKE_CASE_SERIALIZATION = "snake.case.serialization";
     private static final Set<String> safeModels = new HashSet<>();
@@ -43,7 +43,7 @@ public class SimpleMapper {
         AppConfigReader config = AppConfigReader.getInstance();
         boolean snake = config.getProperty(SNAKE_CASE_SERIALIZATION, "true").equals("true");
         if (snake) {
-            log.info("{} enabled", SNAKE_CASE_SERIALIZATION);
+//            log.info("{} enabled", SNAKE_CASE_SERIALIZATION);
         }
         this.mapper = new SimpleObjectMapper(getJson(snake, true), getJson(snake, false));
         /*
@@ -56,7 +56,7 @@ public class SimpleMapper {
             for (String m: list) {
                 safeModels.add(m.endsWith(".") ? m : m +".");
             }
-            log.info("Safe data models {}", safeModels);
+//            log.info("Safe data models {}", safeModels);
         }
     }
 

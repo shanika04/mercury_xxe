@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleXmlParser {
-    private static final Logger log = LoggerFactory.getLogger(SimpleXmlParser.class);
+//    private static final Logger log = LoggerFactory.getLogger(SimpleXmlParser.class);
 
     private static final String VALUE = "value";
     private static List<String> defaultDrop = new ArrayList<>();
@@ -44,14 +44,14 @@ public class SimpleXmlParser {
     public static void setDefaultDropAttributes(List<String> attributesToIgnore) {
         if (attributesToIgnore != null) {
             SimpleXmlParser.defaultDrop = attributesToIgnore;
-            log.info("Default XML attributes to ignore - {}", attributesToIgnore);
+//            log.info("Default XML attributes to ignore - {}", attributesToIgnore);
         }
     }
 
     public void setDropAttributes(List<String> attributesToIgnore) {
         if (attributesToIgnore != null) {
             this.drop = attributesToIgnore;
-            log.info("XML attributes to ignore - {}", attributesToIgnore);
+//            log.info("XML attributes to ignore - {}", attributesToIgnore);
         }
     }
 

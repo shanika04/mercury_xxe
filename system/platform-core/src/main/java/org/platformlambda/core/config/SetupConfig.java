@@ -21,7 +21,7 @@ import java.util.Map;
 @BeforeApplication(sequence = 0)
 @OptionalService("app.config.client")
 public class SetupConfig implements EntryPoint {
-    private static final Logger log = LoggerFactory.getLogger(SetupConfig.class);
+//    private static final Logger log = LoggerFactory.getLogger(SetupConfig.class);
 
     private static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     private static final HttpRequestFactory factory = HTTP_TRANSPORT.createRequestFactory();
@@ -43,17 +43,17 @@ public class SetupConfig implements EntryPoint {
         AppConfigReader reader = AppConfigReader.getInstance();
         String name = util.filteredServiceName(reader.getProperty(SPRING_APPNAME, reader.getProperty(APPNAME, "")));
         if (name.length() == 0) {
-            log.error(SPRING_APPNAME+" or "+APPNAME+" is missing from application.properties");
+//            log.error(SPRING_APPNAME+" or "+APPNAME+" is missing from application.properties");
             System.exit(-1);
         }
         String manager = reader.getProperty("app.config.endpoint");
         if (manager == null) {
-            log.error("app.config.endpoint is not configured");
+//            log.error("app.config.endpoint is not configured");
             System.exit(-1);
         }
         String apiKey = getApiKey();
         if (apiKey == null) {
-            log.error("app.config.key is not configured");
+//            log.error("app.config.key is not configured");
             System.exit(-1);
         }
         URL url = null;
@@ -61,11 +61,11 @@ public class SetupConfig implements EntryPoint {
             try {
                 url = new URL(manager);
             } catch (MalformedURLException e) {
-                log.error("app.config.endpoint is not a valid URL - {}", e.getMessage());
+//                log.error("app.config.endpoint is not a valid URL - {}", e.getMessage());
                 System.exit(-1);
             }
         } else {
-            log.error("app.config.endpoint is not a valid http or https URL");
+//            log.error("app.config.endpoint is not a valid http or https URL");
         }
         int n = 0;
         long t0 = 0;
@@ -79,7 +79,7 @@ public class SetupConfig implements EntryPoint {
                 if (util.portReady(host, port, 5000)) {
                     break;
                 }
-                log.info("Finding config manager at {} ...{}", url, n);
+//                log.info("Finding config manager at {} ...{}", url, n);
             }
             try {
                 Thread.sleep(1000);
@@ -103,7 +103,7 @@ public class SetupConfig implements EntryPoint {
                 String id = k.substring(0, colon);
                 String value = k.substring(colon + 1);
                 if (value.length() > 0) {
-                    log.info("Using api.config.key {}", id);
+//                    log.info("Using api.config.key {}", id);
                     return value;
                 }
             }
@@ -116,7 +116,7 @@ public class SetupConfig implements EntryPoint {
         if (map.containsKey(CONFIG)) {
             Map<String, Object> config = (Map<String, Object>) map.get(CONFIG);
             for (String k: config.keySet()) {
-                log.info("Override {}", k);
+//                log.info("Override {}", k);
                 System.setProperty(k, config.get(k).toString());
             }
         }
@@ -138,7 +138,7 @@ public class SetupConfig implements EntryPoint {
                 return SimpleMapper.getInstance().getMapper().readValue(resBody, Map.class);
             }
         } catch (HttpResponseException e) {
-            log.error("Unable to download config parameters. HTTP-{}, {}", e.getStatusCode(), getErrorMessage(e));
+//            log.error("Unable to download config parameters. HTTP-{}, {}", e.getStatusCode(), getErrorMessage(e));
         }
         return new HashMap<>();
     }

@@ -34,7 +34,7 @@ import java.util.List;
 
 @WebFilter(asyncSupported = true, value = "/*")
 public class InfoFilter implements Filter {
-    private static final Logger log = LoggerFactory.getLogger(InfoFilter.class);
+//    private static final Logger log = LoggerFactory.getLogger(InfoFilter.class);
 
     private static final String IP = "ip";
     private static final String PROTOCOL = "x-forwarded-proto";
@@ -61,9 +61,9 @@ public class InfoFilter implements Filter {
                 infoApiKey = reader.getProperty("info.api.key");
                 if (infoApiKey == null) {
                     infoApiKey = util.getUuid();
-                    log.error("{} disabled because info.api.key is missing in application.properties or INFO_API_KEY in environment", endpoints);
+//                    log.error("{} disabled because info.api.key is missing in application.properties or INFO_API_KEY in environment", endpoints);
                 }
-                log.info("Started. {} loaded.", apiKeyLabel);
+//                log.info("Started. {} loaded.", apiKeyLabel);
             }
         }
     }

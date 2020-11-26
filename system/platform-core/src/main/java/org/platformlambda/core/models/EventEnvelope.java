@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EventEnvelope {
-    private static final Logger log = LoggerFactory.getLogger(EventEnvelope.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventEnvelope.class);
 
     private static final MsgPack msgPack = new MsgPack();
     private static final PayloadMapper converter = PayloadMapper.getInstance();
@@ -465,7 +465,7 @@ public class EventEnvelope {
                      * assuming source and target have the same PoJo class definition.
                      */
                     if (ServerPersonality.getInstance().getType() != ServerPersonality.Type.PLATFORM) {
-                        log.warn("Fall back to Map - {}", simpleError(e.getMessage()));
+//                        log.warn("Fall back to Map - {}", simpleError(e.getMessage()));
                     }
                     type = (String) message.get(OBJ_TYPE);
                     body = message.get(BODY);

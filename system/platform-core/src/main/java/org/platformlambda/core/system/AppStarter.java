@@ -31,13 +31,13 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 public class AppStarter {
-    private static final Logger log = LoggerFactory.getLogger(AppStarter.class);
+//    private static final Logger log = LoggerFactory.getLogger(AppStarter.class);
 
     private static final int MAX_SEQ = 999;
     private static boolean preProcessing = false;
 
     public static void main(String[] args) {
-        log.info("Starting main applications");
+//        log.info("Starting main applications");
         AppStarter application = new AppStarter();
         application.begin(args);
     }
@@ -62,7 +62,7 @@ public class AppStarter {
                         String key = util.zeroFill(seq, MAX_SEQ) + "." + util.zeroFill(n, MAX_SEQ);
                         steps.put(key, cls);
                     } else {
-                        log.debug("Skipping optional startup {}", cls);
+//                        log.debug("Skipping optional startup {}", cls);
                     }
                 }
                 List<String> list = new ArrayList<>(steps.keySet());
@@ -80,18 +80,18 @@ public class AppStarter {
                              */
                             EntryPoint app = (EntryPoint) o;
                             try {
-                                log.info("Starting {}", app.getClass().getName());
+//                                log.info("Starting {}", app.getClass().getName());
                                 app.start(args);
                             } catch (Exception e) {
-                                log.error("Unable to run " + app.getClass().getName(), e);
+//                                log.error("Unable to run " + app.getClass().getName(), e);
                             }
                         } else {
-                            log.error("Unable to start {} because it is not an instance of {}",
-                                    cls.getName(), EntryPoint.class.getName());
+//                            log.error("Unable to start {} because it is not an instance of {}",
+//                                    cls.getName(), EntryPoint.class.getName());
                         }
 
                     } catch (InstantiationException | IllegalAccessException e) {
-                        log.error("Unable to start {} - {}", cls.getName(), e.getMessage());
+//                        log.error("Unable to start {} - {}", cls.getName(), e.getMessage());
                     }
                 }
             }
@@ -122,26 +122,26 @@ public class AppStarter {
                             app.start();
                             total++;
                         } else {
-                            log.error("Unable to start {} because it is not an instance of {}",
-                                    cls.getName(), EntryPoint.class.getName());
+//                            log.error("Unable to start {} because it is not an instance of {}",
+//                                    cls.getName(), EntryPoint.class.getName());
                         }
 
                     } catch (InstantiationException | IllegalAccessException e) {
-                        log.error("Unable to start {} - {}", cls.getName(), e.getMessage());
+//                        log.error("Unable to start {} - {}", cls.getName(), e.getMessage());
                     }
                 } else {
                     skipped++;
-                    log.info("Skipping optional main {}", cls);
+//                    log.info("Skipping optional main {}", cls);
                 }
             }
         }
         if (total == 0) {
-            if (skipped == 0) {
-                log.error("MainApplication not found. Remember to annotate it with {} that implements {}",
-                        MainApplication.class.getName(), EntryPoint.class.getName());
-            } else {
-                log.error("Please enable at least one MainApplication module and try again");
-            }
+//            if (skipped == 0) {
+//                log.error("MainApplication not found. Remember to annotate it with {} that implements {}",
+//                        MainApplication.class.getName(), EntryPoint.class.getName());
+//            } else {
+//                log.error("Please enable at least one MainApplication module and try again");
+//            }
             System.exit(-1);
         }
     }
@@ -159,10 +159,10 @@ public class AppStarter {
         @Override
         public void run() {
             try {
-                log.info("Starting {}", app.getClass().getName());
+//                log.info("Starting {}", app.getClass().getName());
                 app.start(args);
             } catch (Exception e) {
-                log.error("Unable to run "+app.getClass().getName(), e);
+//                log.error("Unable to run "+app.getClass().getName(), e);
             }
         }
     }

@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventNodeManager extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(EventNodeManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventNodeManager.class);
 
     private static final String PLATFORM_PATH = "event.node.path";
     private static final String LOCAL_PLATFORM = "ws://127.0.0.1:8080/ws/events/";
@@ -56,7 +56,7 @@ public class EventNodeManager extends Thread {
     public void run() {
         EventNodeConnector connector = EventNodeConnector.getInstance();
         if (connector.isUnassigned()) {
-            log.info("Started");
+//            log.info("Started");
             long idleSeconds = WsConfigurator.getInstance().getIdleTimeout() - IDLE_THRESHOLD;
             long idleTimeout = (idleSeconds < IDLE_THRESHOLD? IDLE_THRESHOLD : idleSeconds) * 1000;
             if (platformPaths.isEmpty()) {
@@ -72,12 +72,12 @@ public class EventNodeManager extends Thread {
              * Thereafter, wait for 5 seconds and try again until
              * it is connected.
              */
-            log.info("{} = {}", PLATFORM_PATH, platformPaths);
+//            log.info("{} = {}", PLATFORM_PATH, platformPaths);
             while (normal) {
                 try {
                     manageConnection(idleTimeout);
                 } catch (Exception e) {
-                    log.error("Unexpected connectivity issue - {}", e.getMessage());
+//                    log.error("Unexpected connectivity issue - {}", e.getMessage());
                     // guaranteed persistent connection
                     if (session != null && session.isOpen()) {
                         try {
@@ -94,7 +94,7 @@ public class EventNodeManager extends Thread {
                     // ok to ignore
                 }
             }
-            log.info("Stopped");
+//            log.info("Stopped");
         }
     }
 
@@ -117,14 +117,14 @@ public class EventNodeManager extends Thread {
                     try {
                         connector.setState(EventNodeConnector.State.ERROR);
                         String message = "Event node does not handshake in "+(MAX_HANDSHAKE_WAIT / 1000)+" seconds";
-                        log.error(message);
+//                        log.error(message);
                         session.close(new CloseReason(CloseReason.CloseCodes.GOING_AWAY, message));
                     } catch (IOException e) {
-                        log.error("Unable to close session - {}", e.getMessage());
+//                        log.error("Unable to close session - {}", e.getMessage());
                     }
                     session = null;
                 } else {
-                    log.warn("Waiting for event node to handshake");
+//                    log.warn("Waiting for event node to handshake");
                 }
             }
 
@@ -134,7 +134,7 @@ public class EventNodeManager extends Thread {
                 try {
                     connect();
                 } catch (Exception e) {
-                    log.error("Unexpected error when reconnect - {}", e.getMessage());
+//                    log.error("Unexpected error when reconnect - {}", e.getMessage());
                 }
             }
         }
@@ -158,10 +158,10 @@ public class EventNodeManager extends Thread {
                         lastPending = System.currentTimeMillis();
                         return; // exit after successful connection
                     } catch (Exception e) {
-                        log.warn("{} {}", simplifiedError(e.getMessage()), uri);
+//                        log.warn("{} {}", simplifiedError(e.getMessage()), uri);
                     }
                 } catch (URISyntaxException e) {
-                    log.error("Invalid event node URL {}", path);
+//                    log.error("Invalid event node URL {}", path);
                 }
             }
         } else {
@@ -169,13 +169,13 @@ public class EventNodeManager extends Thread {
                 if (session != null && session.isOpen()) {
                     connector.setState(EventNodeConnector.State.ERROR);
                     String message = "Event node does not respond in "+(MAX_HANDSHAKE_WAIT / 1000)+" seconds";
-                    log.error(message);
+//                    log.error(message);
                     session.close(new CloseReason(CloseReason.CloseCodes.GOING_AWAY, message));
                 }
             } else {
                 // give remote end a few seconds to respond
                 if (session != null && session.isOpen()) {
-                    log.warn("Waiting for event node to respond");
+//                    log.warn("Waiting for event node to respond");
                     return;
                 }
             }

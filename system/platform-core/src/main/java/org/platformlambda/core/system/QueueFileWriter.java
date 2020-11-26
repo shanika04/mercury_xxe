@@ -27,7 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class QueueFileWriter implements AutoCloseable {
-    private static final Logger log = LoggerFactory.getLogger(QueueFileWriter.class);
+//    private static final Logger log = LoggerFactory.getLogger(QueueFileWriter.class);
 
     private FileOutputStream out;
 
@@ -46,7 +46,7 @@ public class QueueFileWriter implements AutoCloseable {
                         if (retry == 0) {
                             throw new FileNotFoundException("Unable to create queue file "+f.getPath());
                         } else {
-                            log.warn("Retry creating queue file {}", f.getPath());
+//                            log.warn("Retry creating queue file {}", f.getPath());
                             yield();
                             continue;
                         }
@@ -64,7 +64,7 @@ public class QueueFileWriter implements AutoCloseable {
                     throw e;
                 } else {
                     // Occasionally OS may not be able to update metadata immediately
-                    log.warn("Retry opening queue file {}, due to {}", f.getPath(), e.getMessage());
+//                    log.warn("Retry opening queue file {}, due to {}", f.getPath(), e.getMessage());
                     yield();
                 }
             }

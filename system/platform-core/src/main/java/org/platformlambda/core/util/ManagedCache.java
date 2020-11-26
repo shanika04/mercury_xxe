@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ManagedCache {
-    private static final Logger log = LoggerFactory.getLogger(ManagedCache.class);
+//    private static final Logger log = LoggerFactory.getLogger(ManagedCache.class);
 
     private static final long DEFAULT_MAX_ITEMS = 2000;
     private static final long MIN_EXPIRY = 1000;
@@ -83,7 +83,7 @@ public class ManagedCache {
         // create cache
         managedCache = new ManagedCache(cache, name, expiryTimer, maxItems);
         cacheCollection.put(name, managedCache);
-        log.info("Created cache ({}), expiry {} ms, maxItems={}", name, expiryTimer, maxItems);
+//        log.info("Created cache ({}), expiry {} ms, maxItems={}", name, expiryTimer, maxItems);
         return managedCache;
     }
 
@@ -141,7 +141,7 @@ public class ManagedCache {
     }
 
     public void cleanUp() {
-        log.debug("Cleaning up {}", this.getName());
+//        log.debug("Cleaning up {}", this.getName());
         cache.cleanUp();
     }
 
@@ -175,7 +175,7 @@ public class ManagedCache {
 
         @Override
         public void run() {
-            log.info("Started");
+//            log.info("Started");
             long t1 = System.currentTimeMillis();
             while (normal) {
                 long now = System.currentTimeMillis();
@@ -194,7 +194,7 @@ public class ManagedCache {
                     // ok to ignore
                 }
             }
-            log.info("Stopped");
+//            log.info("Stopped");
         }
 
         private void shutdown() {

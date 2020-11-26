@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 public class PostOffice {
-    private static final Logger log = LoggerFactory.getLogger(PostOffice.class);
+//    private static final Logger log = LoggerFactory.getLogger(PostOffice.class);
 
     public static final int ONE_MILLISECOND = 1000000;
     public static final String CLOUD_CONNECTOR = "cloud.connector";
@@ -68,7 +68,7 @@ public class PostOffice {
                 try {
                     addRouteSubstitution(route, replacement);
                 } catch (IllegalArgumentException e) {
-                    log.error("Unable to add route substitution {} - {}", entry, e.getMessage());
+//                    log.error("Unable to add route substitution {} - {}", entry, e.getMessage());
                 }
             }
         }
@@ -363,7 +363,7 @@ public class PostOffice {
         }
         // best effort to check if the target can be discovered
         discover(to, event.isEndOfRoute());
-        log.debug("Future event to {} in {} ms", to, interval);
+//        log.debug("Future event to {} in {} ms", to, interval);
         // schedule the event delivery
         ActorSystem system = Platform.getInstance().getEventSystem();
         Cancellable task = system.scheduler().scheduleOnce(Duration.create(interval, TimeUnit.MILLISECONDS), () -> {
@@ -371,7 +371,7 @@ public class PostOffice {
                 futureEvents.remove(event.getId());
                 send(event);
             } catch (IOException e) {
-                log.error("Deferred delivery to {} failed - {}", event.getTo(), e.getMessage());
+//                log.error("Deferred delivery to {} failed - {}", event.getTo(), e.getMessage());
             }
         }, system.dispatcher());
         futureEvents.put(event.getId(), new FutureEvent(to, task, future));
@@ -388,7 +388,7 @@ public class PostOffice {
         if (event != null) {
             event.task.cancel();
             futureEvents.remove(id);
-            log.info("Future event {} to {} at {} canceled", id, event.to, Utility.getInstance().date2str(event.time));
+//            log.info("Future event {} to {} at {} canceled", id, event.to, Utility.getInstance().date2str(event.time));
         }
     }
 
@@ -459,7 +459,7 @@ public class PostOffice {
                         throw new IllegalArgumentException("Nested route substitution not supported");
                     } else {
                         reRoutes.put(original, replacement);
-                        log.info("Route substitution: {} -> {}", original, replacement);
+//                        log.info("Route substitution: {} -> {}", original, replacement);
                     }
                 }
             } else {
@@ -473,7 +473,7 @@ public class PostOffice {
     public void removeRouteSubstitution(String original) {
         if (substituteRoutes) {
             if (reRoutes.containsKey(original)) {
-                log.info("Route substitution {} cleared", original);
+//                log.info("Route substitution {} cleared", original);
                 reRoutes.remove(original);
             }
         } else {
@@ -859,7 +859,7 @@ public class PostOffice {
              */
         } catch (AppException e) {
             // this should not occur
-            log.error("Unable to check route {} - ({}) {}", route, e.getStatus(), e.getMessage());
+//            log.error("Unable to check route {} - ({}) {}", route, e.getStatus(), e.getMessage());
         }
         return false;
     }

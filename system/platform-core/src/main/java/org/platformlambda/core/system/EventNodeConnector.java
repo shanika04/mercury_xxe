@@ -40,7 +40,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 
 public class EventNodeConnector implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(EventNodeConnector.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventNodeConnector.class);
     private static final CryptoApi crypto = new CryptoApi();
     private static final Utility util = Utility.getInstance();
     private static final MsgPack msgPack = new MsgPack();
@@ -127,7 +127,7 @@ public class EventNodeConnector implements LambdaFunction {
                     checkingAlive = false;
                     aliveSeq = 0;
                     handshakeStartTime = System.currentTimeMillis();
-                    log.debug("Connected {}, {}, {}", headers.get(WsEnvelope.ROUTE), headers.get(WsEnvelope.IP), headers.get(WsEnvelope.PATH));
+//                    log.debug("Connected {}, {}, {}", headers.get(WsEnvelope.ROUTE), headers.get(WsEnvelope.IP), headers.get(WsEnvelope.PATH));
                     setState(State.CONNECTED);
                     EventEnvelope hello = new EventEnvelope();
                     hello.setHeader(WsEnvelope.TYPE, EventNodeConnector.HELLO);
@@ -144,7 +144,7 @@ public class EventNodeConnector implements LambdaFunction {
                     checkingAlive = false;
                     setState(State.DISCONNECTED);
                     // release resources
-                    log.debug("Disconnected {}", headers.get(WsEnvelope.ROUTE));
+//                    log.debug("Disconnected {}", headers.get(WsEnvelope.ROUTE));
                     break;
                 case WsEnvelope.BYTES:
                     WsEnvelope envelope = registry.get(headers.get(WsEnvelope.ROUTE));
@@ -157,7 +157,7 @@ public class EventNodeConnector implements LambdaFunction {
                                         crypto.aesDecrypt((byte[]) body, envelope.sessionKey) : (byte[]) body;
                                 message.load(payload);
                             } catch (GeneralSecurityException e) {
-                                log.error("Unable to decrypt message from {}, {}", EVENT_NODE, e.getMessage());
+//                                log.error("Unable to decrypt message from {}, {}", EVENT_NODE, e.getMessage());
                                 util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, "Secure transport failed");
                                 return false;
                             }
@@ -174,15 +174,15 @@ public class EventNodeConnector implements LambdaFunction {
                                 if (publicKeyUserGroup != null && para.containsKey(PUBLIC_KEY_USER_GROUP) && publicKeyUserGroup.equals(para.get(PUBLIC_KEY_USER_GROUP))) {
                                     if (message.getBody() instanceof byte[]) {
                                         platformPublicKey = (byte[]) message.getBody();
-                                        log.warn("{} is configured so system is accepting event node public key automatically", PUBLIC_KEY_USER_GROUP);
-                                        log.warn("+++ THIS MUST NOT BE A PRODUCTION SYSTEM +++");
+//                                        log.warn("{} is configured so system is accepting event node public key automatically", PUBLIC_KEY_USER_GROUP);
+//                                        log.warn("+++ THIS MUST NOT BE A PRODUCTION SYSTEM +++");
                                     }
                                 }
                                 if (platformPublicKey == null) {
                                     // get platform public key
                                     File pkFile = new File(util.getEventNodeCredentials(), platformKeyName + CryptoApi.PUBLIC);
                                     if (!pkFile.exists()) {
-                                        log.error("Unable to authenticate {}, public key not found in {}", EVENT_NODE, pkFile.getPath());
+//                                        log.error("Unable to authenticate {}, public key not found in {}", EVENT_NODE, pkFile.getPath());
                                         util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, personalityType + " does not have remote public key");
                                         return false;
                                     }
@@ -213,8 +213,8 @@ public class EventNodeConnector implements LambdaFunction {
                                     challenge.setBody(crypto.aesEncrypt(ePayload, sessionKey));
                                     po.send(envelope.txPath, challenge.toBytes());
                                 } catch (GeneralSecurityException | IllegalArgumentException e) {
-                                    log.error("Unable to authenticate {}, {}", EVENT_NODE, e.getMessage());
-                                    util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, personalityType + " gives up");
+//                                    log.error("Unable to authenticate {}, {}", EVENT_NODE, e.getMessage());
+//                                    util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, personalityType + " gives up");
                                     return false;
                                 }
                             }
@@ -225,7 +225,7 @@ public class EventNodeConnector implements LambdaFunction {
                                 try {
                                     confirm = (Map<String, Object>) msgPack.unpack(crypto.aesDecrypt(encryptedToken, envelope.sessionKey));
                                 } catch (GeneralSecurityException | IOException e) {
-                                    log.error("Unable to authenticate {}, {}", EVENT_NODE, e.getMessage());
+//                                    log.error("Unable to authenticate {}, {}", EVENT_NODE, e.getMessage());
                                     util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, personalityType + "gives up");
                                     return false;
                                 }
@@ -235,18 +235,18 @@ public class EventNodeConnector implements LambdaFunction {
                                     token = (byte[]) confirm.get(TOKEN);
                                 }
                                 if (!Arrays.equals(challengeToken, token)) {
-                                    log.error("Unable to authenticate {}, challenge-response failed", EVENT_NODE);
+//                                    log.error("Unable to authenticate {}, challenge-response failed", EVENT_NODE);
                                     util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, personalityType + " gives up");
                                     return false;
                                 } else {
-                                    log.info("{} authenticated", EVENT_NODE);
+//                                    log.info("{} authenticated", EVENT_NODE);
                                     // now ready to received normal messages
                                     ready = true;
                                     // turn on secure transport
                                     if (envelope.encrypt) {
                                         po.send(envelope.txPath, new Kv(WsEnvelope.TYPE, WsEnvelope.ENCRYPT),
                                                 new Kv(WsEnvelope.ENCRYPT, util.bytesToBase64(envelope.sessionKey)));
-                                        log.info("Secure transport enabled, {} to {}", personalityType, EVENT_NODE);
+//                                        log.info("Secure transport enabled, {} to {}", personalityType, EVENT_NODE);
                                     }
                                     // upload routing table
                                     ServerPersonality personality = ServerPersonality.getInstance();
@@ -261,7 +261,7 @@ public class EventNodeConnector implements LambdaFunction {
                                                         new Kv(ServiceDiscovery.ROUTE, def.getRoute()),
                                                         new Kv(ServiceDiscovery.ORIGIN, platform.getOrigin()),
                                                         new Kv(ServiceDiscovery.TYPE, ServiceDiscovery.ADD));
-                                                log.info("{} registered with {}", def.getRoute(), EVENT_NODE);
+//                                                log.info("{} registered with {}", def.getRoute(), EVENT_NODE);
                                             }
                                         }
                                     }
@@ -272,7 +272,7 @@ public class EventNodeConnector implements LambdaFunction {
                     break;
                 case WsEnvelope.STRING:
                     String message = (String) body;
-                    log.debug("{}", body);
+//                    log.debug("{}", body);
                     if (message.contains(ALIVE)) {
                         aliveTime = System.currentTimeMillis();
                         checkingAlive = false;
@@ -281,7 +281,7 @@ public class EventNodeConnector implements LambdaFunction {
                     break;
                 default:
                     // this should not happen
-                    log.error("Invalid event {} {}", headers, body);
+//                    log.error("Invalid event {} {}", headers, body);
                     break;
             }
         }
@@ -291,7 +291,7 @@ public class EventNodeConnector implements LambdaFunction {
     public void isAlive() {
         if (checkingAlive && txPath != null && (System.currentTimeMillis() - aliveTime > MAX_ALIVE_WAIT)) {
             String message = "Event node failed to keep alive in "+(MAX_ALIVE_WAIT / 1000)+" seconds";
-            log.error(message);
+//            log.error(message);
             try {
                 util.closeConnection(txPath, CloseReason.CloseCodes.GOING_AWAY, message);
             } catch (IOException e) {
@@ -308,7 +308,7 @@ public class EventNodeConnector implements LambdaFunction {
             try {
                 PostOffice.getInstance().send(txPath, ALIVE+" "+aliveSeq);
             } catch (IOException e) {
-                log.error("Unable to send keep alive to event node - {}", e.getMessage());
+//                log.error("Unable to send keep alive to event node - {}", e.getMessage());
             }
         }
     }

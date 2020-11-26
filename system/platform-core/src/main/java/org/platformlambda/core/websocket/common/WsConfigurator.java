@@ -27,7 +27,7 @@ import org.platformlambda.core.util.Utility;
 
 
 public class WsConfigurator {
-    private static final Logger log = LoggerFactory.getLogger(WsConfigurator.class);
+//    private static final Logger log = LoggerFactory.getLogger(WsConfigurator.class);
 
     private static final int CONTROL_BYTES = 200;
     private static final int MIN_TIMEOUT = 10;
@@ -79,7 +79,7 @@ public class WsConfigurator {
         session.setMaxIdleTimeout(getIdleTimeout() * 1000);
         if (!idleTimerLogged) {
             idleTimerLogged = true;
-            log.info("{} = {} seconds", IDLE_TIMEOUT, session.getMaxIdleTimeout() / 1000);
+//            log.info("{} = {} seconds", IDLE_TIMEOUT, session.getMaxIdleTimeout() / 1000);
         }
         // adjust web socket buffer size
         int originalTextSize = session.getMaxTextMessageBufferSize();
@@ -88,14 +88,14 @@ public class WsConfigurator {
             session.setMaxTextMessageBufferSize(getTextSize());
             if (!textSizeLogged) {
                 textSizeLogged = true;
-                log.warn("{} changed from {} to {}", TEXT_SIZE, originalTextSize, session.getMaxTextMessageBufferSize());
+//                log.warn("{} changed from {} to {}", TEXT_SIZE, originalTextSize, session.getMaxTextMessageBufferSize());
             }
         }
         if (originalBinarySize != getBinarySize()) {
             session.setMaxBinaryMessageBufferSize(getBinarySize());
             if (!binarySizeLogged) {
                 binarySizeLogged = true;
-                log.warn("{} changed from {} to {}", BINARY_SIZE, originalBinarySize, session.getMaxBinaryMessageBufferSize());
+//                log.warn("{} changed from {} to {}", BINARY_SIZE, originalBinarySize, session.getMaxBinaryMessageBufferSize());
             }
         }
     }

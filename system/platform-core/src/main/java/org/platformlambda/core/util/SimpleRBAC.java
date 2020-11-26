@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SimpleRBAC {
-    private static final Logger log = LoggerFactory.getLogger(SimpleRBAC.class);
+//    private static final Logger log = LoggerFactory.getLogger(SimpleRBAC.class);
 
     private static final String ROLES = "roles";
     private static final String SERVICES = "services";
@@ -21,12 +21,12 @@ public class SimpleRBAC {
     private SimpleRBAC() {
         ConfigReader config = getConfig();
         if (config == null) {
-            log.error("RBAC configuration file is not available" );
+//            log.error("RBAC configuration file is not available" );
         } else {
             int roles = loadRoles(config);
             int access = loadRbac(config);
-            log.info("Loaded {} role{} and {} RBAC {}",
-                    roles, roles == 1? "": "s", access, access == 1? "entry" : "entries");
+//            log.info("Loaded {} role{} and {} RBAC {}",
+//                    roles, roles == 1? "": "s", access, access == 1? "entry" : "entries");
         }
     }
 
@@ -70,7 +70,7 @@ public class SimpleRBAC {
             }
             return userRoles.size();
         } else {
-            log.error("Unable to load roles because 'roles' is not a list");
+//            log.error("Unable to load roles because 'roles' is not a list");
         }
         return 0;
     }
@@ -89,17 +89,17 @@ public class SimpleRBAC {
                         list.add(o.toString());
                     }
                     if (list.isEmpty()) {
-                        log.error("Invalid RBAC entry ({}) because it is empty", k);
+//                        log.error("Invalid RBAC entry ({}) because it is empty", k);
                     } else {
                         accessMap.put(k.toString(), list);
                     }
                 } else {
-                    log.error("Invalid RBAC entry ({}) because it is not a list", k);
+//                    log.error("Invalid RBAC entry ({}) because it is not a list", k);
                 }
             }
             return accessMap.size();
         } else {
-            log.error("Unable to load roles because 'roles' is not a list");
+//            log.error("Unable to load roles because 'roles' is not a list");
         }
         return 0;
     }
@@ -112,10 +112,10 @@ public class SimpleRBAC {
             ConfigReader config = new ConfigReader();
             try {
                 config.load(p);
-                log.info("Loading config from {}", p);
+//                log.info("Loading config from {}", p);
                 return config;
             } catch (IOException e) {
-                log.warn("Skipping {} - {}", p, e.getMessage());
+//                log.warn("Skipping {} - {}", p, e.getMessage());
             }
         }
         return null;

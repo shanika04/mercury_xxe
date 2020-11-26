@@ -17,7 +17,7 @@ import java.util.concurrent.TimeoutException;
 
 @ClientEndpoint
 public class SimpleClientEndpoint {
-    private static final Logger log = LoggerFactory.getLogger(SimpleClientEndpoint.class);
+//    private static final Logger log = LoggerFactory.getLogger(SimpleClientEndpoint.class);
     private static final WsRegistry registry = WsRegistry.getInstance();
 
     private LambdaFunction service;
@@ -50,17 +50,17 @@ public class SimpleClientEndpoint {
                     new Kv(WsEnvelope.QUERY, envelope.query == null? "" : envelope.query),
                     new Kv(WsEnvelope.TOKEN, envelope.origin));
 
-            if (envelope.query == null) {
-                log.info("Session-{} {} connected to {} {}, {}", session.getId(), service.getClass().getSimpleName(),
-                        route, envelope.ip, envelope.path);
-            } else {
-                log.info("Session-{} {} connected to {} {}, {}, {}", session.getId(), service.getClass().getSimpleName(),
-                        route, envelope.ip, envelope.path, envelope.query);
-            }
+//            if (envelope.query == null) {
+//                log.info("Session-{} {} connected to {} {}, {}", session.getId(), service.getClass().getSimpleName(),
+//                        route, envelope.ip, envelope.path);
+//            } else {
+//                log.info("Session-{} {} connected to {} {}, {}, {}", session.getId(), service.getClass().getSimpleName(),
+//                        route, envelope.ip, envelope.path, envelope.query);
+//            }
         } catch (IOException | TimeoutException e) {
-            log.error("Unable to connect to {}, {}", uri, e.getMessage());
+//            log.error("Unable to connect to {}, {}", uri, e.getMessage());
         } catch (AppException e) {
-            log.error("Unable to connect to {}, status={}, error={}", uri, e.getStatus(), e.getMessage());
+//            log.error("Unable to connect to {}, status={}, error={}", uri, e.getStatus(), e.getMessage());
         }
     }
 
@@ -74,7 +74,7 @@ public class SimpleClientEndpoint {
                     PostOffice.getInstance().send(route, message, new Kv(WsEnvelope.TYPE, WsEnvelope.STRING),
                             new Kv(WsEnvelope.ROUTE, route), new Kv(WsEnvelope.TX_PATH, envelope.txPath));
                 } catch (IOException e) {
-                    log.error("Unable to route websocket message to {}, {}", route, e.getMessage());
+//                    log.error("Unable to route websocket message to {}, {}", route, e.getMessage());
                 }
             }
         }
@@ -91,7 +91,7 @@ public class SimpleClientEndpoint {
                             new Kv(WsEnvelope.ROUTE, route), new Kv(WsEnvelope.TX_PATH, envelope.txPath));
 
                 } catch (IOException e) {
-                    log.error("Unable to route websocket payload to {}, {}", route, e.getMessage());
+//                    log.error("Unable to route websocket payload to {}, {}", route, e.getMessage());
                 }
             }
         }
@@ -104,8 +104,8 @@ public class SimpleClientEndpoint {
         if (route != null) {
             WsEnvelope envelope = registry.get(route);
             if (envelope != null) {
-                log.info("Session-{} {} closed ({}, {})", session.getId(), route,
-                        reason.getCloseCode().getCode(), reason.getReasonPhrase());
+//                log.info("Session-{} {} closed ({}, {})", session.getId(), route,
+//                        reason.getCloseCode().getCode(), reason.getReasonPhrase());
                 try {
                     /*
                      * Send close event to the handler to release resources.
@@ -117,7 +117,7 @@ public class SimpleClientEndpoint {
                     // release websocket registry resources
                     registry.release(route);
                 } catch (IOException e) {
-                    log.error("Unable to close {} due to {}", route, e.getMessage());
+//                    log.error("Unable to close {} due to {}", route, e.getMessage());
                 }
             }
         }
@@ -127,7 +127,7 @@ public class SimpleClientEndpoint {
     public void onError(Session session, Throwable error) {
         // log all errors except connection failure
         if (open) {
-            log.warn("Session-{} {} exception {}", session.getId(), route, error.getMessage());
+//            log.warn("Session-{} {} exception {}", session.getId(), route, error.getMessage());
         }
     }
 

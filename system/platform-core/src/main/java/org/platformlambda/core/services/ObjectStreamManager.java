@@ -34,7 +34,7 @@ import java.util.concurrent.ConcurrentMap;
 
 @ZeroTracing
 public class ObjectStreamManager implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(ObjectStreamManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(ObjectStreamManager.class);
 
     private static final String TYPE = "type";
     private static final String CREATE = "create";
@@ -87,7 +87,7 @@ public class ObjectStreamManager implements LambdaFunction {
             ObjectStreamService service = new ObjectStreamService();
             platform.registerPrivate(service.getPath(), service, 1);
             streams.put(service.getPath(), new StreamInfo(expirySeconds));
-            log.info("{} created with inactivity expiry of {} seconds", service.getPath(), expirySeconds);
+//            log.info("{} created with inactivity expiry of {} seconds", service.getPath(), expirySeconds);
             // return fully qualified name
             return service.getPath()+"@"+platform.getOrigin();
         } else if (DESTROY.equals(headers.get(TYPE)) && headers.containsKey(NAME)) {
@@ -97,9 +97,9 @@ public class ObjectStreamManager implements LambdaFunction {
                 StreamInfo info = streams.get(name);
                 streams.remove(name);
                 platform.release(name);
-                log.info("{} closed ({} - {}, transactions={})", name,
-                        util.date2str(new Date(info.created), true),
-                        util.date2str(new Date(info.updated), true), info.count);
+//                log.info("{} closed ({} - {}, transactions={})", name,
+//                        util.date2str(new Date(info.created), true),
+//                        util.date2str(new Date(info.updated), true), info.count);
                 return true;
             } else {
                 throw new IllegalArgumentException(name + " not found");
@@ -153,7 +153,7 @@ public class ObjectStreamManager implements LambdaFunction {
         @Override
         public void run() {
 
-            log.info("Started");
+//            log.info("Started");
             Utility util = Utility.getInstance();
             Platform platform = Platform.getInstance();
             long t1 = System.currentTimeMillis();
@@ -168,15 +168,15 @@ public class ObjectStreamManager implements LambdaFunction {
                             StreamInfo info = streams.get(id);
                             if (now - info.updated > info.expiryMills) {
                                 try {
-                                    log.warn("{} expired. Inactivity for {} seconds ({} - {}, transactions={})", id,
-                                            info.expiryMills / 1000,
-                                            util.date2str(new Date(info.created), true),
-                                            util.date2str(new Date(info.updated), true), info.count);
+//                                    log.warn("{} expired. Inactivity for {} seconds ({} - {}, transactions={})", id,
+//                                            info.expiryMills / 1000,
+//                                            util.date2str(new Date(info.created), true),
+//                                            util.date2str(new Date(info.updated), true), info.count);
                                     // tell service to destroy elastic queue object
                                     PostOffice.getInstance().send(id, new Kv(TYPE, CLOSE));
                                 } catch (IOException e) {
                                     // perhaps stream service route is closed concurrently
-                                    log.error("Unable to release {} - {}", id, e.getMessage());
+//                                    log.error("Unable to release {} - {}", id, e.getMessage());
                                     streams.remove(id);
                                     try {
                                         platform.release(id);
@@ -195,7 +195,7 @@ public class ObjectStreamManager implements LambdaFunction {
                     // ok to ignore
                 }
             }
-            log.info("Stopped");
+//            log.info("Stopped");
         }
 
         private void shutdown() {

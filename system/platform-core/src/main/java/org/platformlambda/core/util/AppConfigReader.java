@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class AppConfigReader implements ConfigBase {
-    private static final Logger log = LoggerFactory.getLogger(AppConfigReader.class);
+//    private static final Logger log = LoggerFactory.getLogger(AppConfigReader.class);
     private static final AppConfigReader instance = new AppConfigReader();
 
     private static ConfigReader reader;
@@ -55,12 +55,12 @@ public class AppConfigReader implements ConfigBase {
             // load application.properties
             reader.load(APP_PROPS);
             if (!reader.isEmpty()) {
-                log.debug("Loaded {} item{} from {}", reader.size(),
-                        reader.size() == 1? "" : "s", APP_PROPS);
+//                log.debug("Loaded {} item{} from {}", reader.size(),
+//                        reader.size() == 1? "" : "s", APP_PROPS);
                 return;
             }
         } catch (IOException e) {
-            log.error("Unable to load {}, {}", APP_PROPS, e.getMessage());
+//            log.error("Unable to load {}, {}", APP_PROPS, e.getMessage());
         }
         try {
             // try YAML if application.properties is not found
@@ -71,10 +71,10 @@ public class AppConfigReader implements ConfigBase {
                  * e.g. "application.name"
                  */
                 reader.flattenMap();
-                log.debug("Loaded {} item{} from {}", reader.size(), reader.size() == 1? "" : "s", APP_YML);
+//                log.debug("Loaded {} item{} from {}", reader.size(), reader.size() == 1? "" : "s", APP_YML);
             }
         } catch (IOException e) {
-            log.error("Unable to load {}, {}", APP_YML, e.getMessage());
+//            log.error("Unable to load {}, {}", APP_YML, e.getMessage());
         }
     }
 

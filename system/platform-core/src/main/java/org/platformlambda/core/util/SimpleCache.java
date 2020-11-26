@@ -35,7 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * This class is mainly used by the MultipartPayload class for segmentation of large event payload.
  */
 public class SimpleCache {
-    private static final Logger log = LoggerFactory.getLogger(SimpleCache.class);
+//    private static final Logger log = LoggerFactory.getLogger(SimpleCache.class);
 
     private static final long HOUSEKEEPING_INTERVAL = 10000;
     private static final long MIN_EXPIRY = HOUSEKEEPING_INTERVAL;
@@ -71,7 +71,7 @@ public class SimpleCache {
         long expiryTimer = Math.max(expiryMs, MIN_EXPIRY);
         simpleCache = new SimpleCache(name, expiryTimer);
         cacheCollection.put(name, simpleCache);
-        log.info("Created cache ({}), expiry {} ms", name, expiryTimer);
+//        log.info("Created cache ({}), expiry {} ms", name, expiryTimer);
         return simpleCache;
     }
 
@@ -108,7 +108,7 @@ public class SimpleCache {
 
     public void cleanUp() {
         long now = System.currentTimeMillis();
-        log.debug("Cleaning up {}", this.getName());
+//        log.debug("Cleaning up {}", this.getName());
         // clean up cache
         List<String> expired = new ArrayList<>();
         for (String k: cache.keySet()) {
@@ -121,7 +121,7 @@ public class SimpleCache {
             for (String k : expired) {
                 remove(k);
             }
-            log.info("Total {} item{} expired", expired.size(), expired.size() == 1? "" : "s");
+//            log.info("Total {} item{} expired", expired.size(), expired.size() == 1? "" : "s");
         }
     }
 
@@ -138,7 +138,7 @@ public class SimpleCache {
 
         @Override
         public void run() {
-            log.info("Started");
+//            log.info("Started");
             long t1 = System.currentTimeMillis();
             while (normal) {
                 long now = System.currentTimeMillis();
@@ -157,7 +157,7 @@ public class SimpleCache {
                     // ok to ignore
                 }
             }
-            log.info("Stopped");
+//            log.info("Stopped");
         }
 
         private void shutdown() {

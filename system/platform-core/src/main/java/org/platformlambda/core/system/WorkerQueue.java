@@ -36,7 +36,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class WorkerQueue extends AbstractActor {
-    private static final Logger log = LoggerFactory.getLogger(WorkerQueue.class);
+//    private static final Logger log = LoggerFactory.getLogger(WorkerQueue.class);
     private static final ExecutorService executor = Executors.newCachedThreadPool();
     private static final ReadySignal READY = new ReadySignal();
     private static final Utility util = Utility.getInstance();
@@ -64,7 +64,7 @@ public class WorkerQueue extends AbstractActor {
         this.origin = Platform.getInstance().getOrigin();
         // tell manager that this worker is ready to process a new event
         manager.tell(READY, getSelf());
-        log.debug("{} started", getSelf().path().name());
+//        log.debug("{} started", getSelf().path().name());
     }
 
     @Override
@@ -104,7 +104,7 @@ public class WorkerQueue extends AbstractActor {
                             }
                             po.send(dt);
                         } catch (Exception e) {
-                            log.error("Unable to send distributed tracing - {}", e.getMessage());
+//                            log.error("Unable to send distributed tracing - {}", e.getMessage());
                         }
                     }
                     /*
@@ -239,14 +239,14 @@ public class WorkerQueue extends AbstractActor {
                 try {
                     po.send(response);
                 } catch (Exception nested) {
-                    log.warn("Unhandled exception when sending reply from {} - {}", getSelf().path().name(), nested.getMessage());
+//                    log.warn("Unhandled exception when sending reply from {} - {}", getSelf().path().name(), nested.getMessage());
                 }
             } else {
-                if (status >= 500) {
-                    log.error("Unhandled exception for "+getSelf().path().name(), ex);
-                } else {
-                    log.warn("Unhandled exception for {} - {}", getSelf().path().name(), ex.getMessage());
-                }
+//                if (status >= 500) {
+////                    log.error("Unhandled exception for "+getSelf().path().name(), ex);
+//                } else {
+////                    log.warn("Unhandled exception for {} - {}", getSelf().path().name(), ex.getMessage());
+//                }
             }
             return new ProcessStatus(status, e.getMessage());
         }
@@ -254,7 +254,7 @@ public class WorkerQueue extends AbstractActor {
 
     @Override
     public void postStop() {
-        log.debug("{} stopped", getSelf().path().name());
+//        log.debug("{} stopped", getSelf().path().name());
     }
 
 }

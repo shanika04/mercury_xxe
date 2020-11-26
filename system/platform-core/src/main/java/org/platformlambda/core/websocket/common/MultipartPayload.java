@@ -35,7 +35,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 public class MultipartPayload {
-    private static final Logger log = LoggerFactory.getLogger(MultipartPayload.class);
+//    private static final Logger log = LoggerFactory.getLogger(MultipartPayload.class);
 
     public static final String ID = "id";
     public static final String COUNT = "count";
@@ -48,7 +48,7 @@ public class MultipartPayload {
     private static MultipartPayload instance = new MultipartPayload();
 
     private MultipartPayload() {
-        log.info("Automatic segmentation when event payload exceeds {}", NumberFormat.getInstance().format(MAX_PAYLOAD));
+//        log.info("Automatic segmentation when event payload exceeds {}", NumberFormat.getInstance().format(MAX_PAYLOAD));
     }
 
     public static MultipartPayload getInstance() {
@@ -69,7 +69,7 @@ public class MultipartPayload {
             int total = util.str2int(control.get(TOTAL));
             byte[] data = (byte[]) message.getBody();
             if (data != null && count != -1 && total != -1) {
-                log.debug("Receiving block {} of {} as {} - {} bytes", count, total, id, data.length);
+//                log.debug("Receiving block {} of {} as {} - {} bytes", count, total, id, data.length);
                 ByteArrayOutputStream buffer = (ByteArrayOutputStream) cache.get(id);
                 if (count == 1 || buffer == null) {
                     buffer = new ByteArrayOutputStream();
@@ -116,7 +116,7 @@ public class MultipartPayload {
                         out.setHeader(BROADCAST, "1");
                     }
                     dest.tell(out, ActorRef.noSender());
-                    log.debug("Sending block {} of {} to {} - {} bytes", i + 1, total, event.getTo(), size);
+//                    log.debug("Sending block {} of {} to {} - {} bytes", i + 1, total, event.getTo(), size);
                 }
 
             } else {
