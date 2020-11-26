@@ -42,21 +42,21 @@ public class PostOfficeTest {
     public static void setup() throws IOException {
         Platform platform = Platform.getInstance();
 
-        LambdaFunction echo = (headers, body, instance) -> {
-            int c = body instanceof Integer? (int) body : 2;
-            if (c % 2 == 0) {
-                Thread.sleep(1000);
-                // timeout the incoming request
-            }
-            Map<String, Object> result = new HashMap<>();
-            result.put("headers", headers);
-            result.put("body", body);
-            result.put("instance", instance);
-            result.put("counter", c);
-            result.put("origin", platform.getOrigin());
-            return result;
-        };
-        platform.register("hello.world", echo, 10);
+//        LambdaFunction echo = (headers, body, instance) -> {
+//            int c = body instanceof Integer? (int) body : 2;
+//            if (c % 2 == 0) {
+//                Thread.sleep(1000);
+//                // timeout the incoming request
+//            }
+//            Map<String, Object> result = new HashMap<>();
+//            result.put("headers", headers);
+//            result.put("body", body);
+//            result.put("instance", instance);
+//            result.put("counter", c);
+//            result.put("origin", platform.getOrigin());
+//            return result;
+//        };
+//        platform.register("hello.world", echo, 10);
     }
 
     @Test(expected = TimeoutException.class)
@@ -86,34 +86,34 @@ public class PostOfficeTest {
         final String SOME_KEY = "some_key";
         final String SOME_VALUE = "some value";
         Platform platform = Platform.getInstance();
-        LambdaFunction tier1 = (headers, body, instance) -> {
-            PostOffice po = PostOffice.getInstance();
-            assertEquals(ROUTE_ONE, po.getRoute());
-            Map<String, Object> result = new HashMap<>();
-            result.put("headers", headers);
-            result.put("body", body);
-            result.put("instance", instance);
-            result.put("origin", platform.getOrigin());
-            // verify trace ID and path
-            assertEquals(TRACE_ID, po.getTraceId());
-            assertEquals(TRACE_PATH, po.getTrace().path);
-            // annotate trace
-            po.annotateTrace(SOME_KEY, SOME_VALUE);
-            // send to level-2 service
-            EventEnvelope response = po.request(ROUTE_TWO, 5000, "test");
-            assertEquals(TRACE_ID, response.getBody());
-            return result;
-        };
-        LambdaFunction tier2 = (headers, body, instance) -> {
-            PostOffice po = PostOffice.getInstance();
-            assertEquals(ROUTE_TWO, po.getRoute());
-            assertEquals(TRACE_ID, po.getTraceId());
-            // annotations are local to a service and should not be transported to the next service
-            assertTrue(po.getTrace().annotations.isEmpty());
-            return po.getTraceId();
-        };
-        platform.register(ROUTE_ONE, tier1, 1);
-        platform.register(ROUTE_TWO, tier2, 1);
+//        LambdaFunction tier1 = (headers, body, instance) -> {
+//            PostOffice po = PostOffice.getInstance();
+//            assertEquals(ROUTE_ONE, po.getRoute());
+//            Map<String, Object> result = new HashMap<>();
+//            result.put("headers", headers);
+//            result.put("body", body);
+//            result.put("instance", instance);
+//            result.put("origin", platform.getOrigin());
+//            // verify trace ID and path
+//            assertEquals(TRACE_ID, po.getTraceId());
+//            assertEquals(TRACE_PATH, po.getTrace().path);
+//            // annotate trace
+//            po.annotateTrace(SOME_KEY, SOME_VALUE);
+//            // send to level-2 service
+//            EventEnvelope response = po.request(ROUTE_TWO, 5000, "test");
+//            assertEquals(TRACE_ID, response.getBody());
+//            return result;
+//        };
+//        LambdaFunction tier2 = (headers, body, instance) -> {
+//            PostOffice po = PostOffice.getInstance();
+//            assertEquals(ROUTE_TWO, po.getRoute());
+//            assertEquals(TRACE_ID, po.getTraceId());
+//            // annotations are local to a service and should not be transported to the next service
+//            assertTrue(po.getTrace().annotations.isEmpty());
+//            return po.getTraceId();
+//        };
+//        platform.register(ROUTE_ONE, tier1, 1);
+//        platform.register(ROUTE_TWO, tier2, 1);
         // test tracing to 2 levels
         String testMessage = "some message";
         EventEnvelope event = new EventEnvelope();

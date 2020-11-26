@@ -199,16 +199,16 @@ public class Platform {
                     Object o = cls.newInstance();
                     if (o instanceof CloudSetup) {
                         CloudSetup cloud = (CloudSetup) o;
-                        new Thread(()-> {
-                            log.info("Starting cloud {} {} using {}", isConnector? "connector" : "service", name, cls.getName());
-                            cloud.initialize();
-                            /*
-                             * For wrapper, the system will execute original connector or service after initialization.
-                             */
-                            if (original.length() > 0) {
-                                startService(original, services, isConnector);
-                            }
-                        }).start();
+//                        new Thread(()-> {
+//                            log.info("Starting cloud {} {} using {}", isConnector? "connector" : "service", name, cls.getName());
+//                            cloud.initialize();
+//                            /*
+//                             * For wrapper, the system will execute original connector or service after initialization.
+//                             */
+//                            if (original.length() > 0) {
+//                                startService(original, services, isConnector);
+//                            }
+//                        }).start();
                         return true;
                     } else {
                         log.error("Unable to start cloud {} ({}) because it does not inherit {}",
