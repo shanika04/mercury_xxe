@@ -28,18 +28,18 @@ import org.slf4j.LoggerFactory;
 public class InboxListener extends AbstractActor {
 //    private static final Logger log = LoggerFactory.getLogger(InboxListener.class);
 
-    public static Props props() {
-        return Props.create(InboxListener.class, () -> new InboxListener());
-    }
+//    public static Props props() {
+//        return Props.create(InboxListener.class, () -> new InboxListener());
+//    }
 
     @Override
-    public Receive createReceive() {
-        return receiveBuilder().match(EventEnvelope.class, reply -> {
-            String inboxId = reply.getReplyTo();
-            if (inboxId != null) {
-                Inbox.saveResponse(inboxId, reply);
-            }
-        }).build();
+    public Receive createReceive() { return null;
+//        return receiveBuilder().match(EventEnvelope.class, reply -> {
+//            String inboxId = reply.getReplyTo();
+//            if (inboxId != null) {
+//                Inbox.saveResponse(inboxId, reply);
+//            }
+//        }).build();
     }
 
 //    @Override

@@ -55,27 +55,27 @@ public class PayloadSegmentationTest {
         String RECEIVER = "large.payload.receiver";
         Platform platform = Platform.getInstance();
         // create function to receive large payload
-        LambdaFunction f = (headers, body, instance) -> {
-            if (body instanceof byte[]) {
-                byte[] b = (byte[]) body;
-                if (headers.containsKey("to")) {
-                    EventEnvelope e = new EventEnvelope();
-                    e.load(b);
-                    if (e.getTo() != null) {
-                        // reconstructed event
-                        PostOffice.getInstance().send(e);
-                    } else {
-                        // segmented payload
-                        multipart.incoming(e);
-                    }
-                } else {
-                    bench.offer(b.length);
-                    assertEquals(b.length, sb.length());
-                }
-            }
-            return true;
-        };
-        platform.registerPrivate(RECEIVER, f, 1);
+//        LambdaFunction f = (headers, body, instance) -> {
+//            if (body instanceof byte[]) {
+//                byte[] b = (byte[]) body;
+//                if (headers.containsKey("to")) {
+//                    EventEnvelope e = new EventEnvelope();
+//                    e.load(b);
+//                    if (e.getTo() != null) {
+//                        // reconstructed event
+//                        PostOffice.getInstance().send(e);
+//                    } else {
+//                        // segmented payload
+//                        multipart.incoming(e);
+//                    }
+//                } else {
+//                    bench.offer(b.length);
+//                    assertEquals(b.length, sb.length());
+//                }
+//            }
+//            return true;
+//        };
+//        platform.registerPrivate(RECEIVER, f, 1);
         EventEnvelope event = new EventEnvelope();
         event.setTo(RECEIVER).setBody(Utility.getInstance().getUTF(sb.toString()));
         multipart.outgoing(RECEIVER, event);

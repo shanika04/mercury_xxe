@@ -366,6 +366,7 @@ public class PostOffice {
 //        log.debug("Future event to {} in {} ms", to, interval);
         // schedule the event delivery
         ActorSystem system = Platform.getInstance().getEventSystem();
+<<<<<<< HEAD
         Cancellable task = system.scheduler().scheduleOnce(Duration.create(interval, TimeUnit.MILLISECONDS), () -> {
             try {
                 futureEvents.remove(event.getId());
@@ -375,6 +376,17 @@ public class PostOffice {
             }
         }, system.dispatcher());
         futureEvents.put(event.getId(), new FutureEvent(to, task, future));
+=======
+//        Cancellable task = system.scheduler().scheduleOnce(Duration.create(interval, TimeUnit.MILLISECONDS), () -> {
+//            try {
+//                futureEvents.remove(event.getId());
+//                send(event);
+//            } catch (IOException e) {
+//                log.error("Deferred delivery to {} failed - {}", event.getTo(), e.getMessage());
+//            }
+//        }, system.dispatcher());
+//        futureEvents.put(event.getId(), new FutureEvent(to, task, future));
+>>>>>>> 5ba6b989dda7dd2abb52613f29ac564f22924b61
         return event.getId();
     }
 

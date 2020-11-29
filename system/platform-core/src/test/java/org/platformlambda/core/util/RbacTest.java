@@ -43,29 +43,29 @@ public class RbacTest {
         Utility util = Utility.getInstance();
         PostOffice po = PostOffice.getInstance();
         // validate RBAC inside a service function
-        LambdaFunction f = (headers, body, instance) -> {
-            List<String> result = new ArrayList<>();
-            result.add(po.getRoute());
-            /*
-             * Simple RBAC to validate if the user roles are allowed to access this function.
-             * Note that route name of this function is passed using po.getRoute()
-             *
-             * For production code, the user roles should come from the user profile after authentication.
-             */
-            SimpleRBAC rbac = SimpleRBAC.getInstance();
-            if (headers.containsKey(ROLES)) {
-                List<String> passRoles = util.split(headers.get(ROLES), ", ");
-                // check if the roles are allowed
-                boolean status = rbac.permitted(po.getRoute(), fromList(passRoles));
-                result.add(String.valueOf(status));
-            }
-            return result;
-        };
+//        LambdaFunction f = (headers, body, instance) -> {
+//            List<String> result = new ArrayList<>();
+//            result.add(po.getRoute());
+//            /*
+//             * Simple RBAC to validate if the user roles are allowed to access this function.
+//             * Note that route name of this function is passed using po.getRoute()
+//             *
+//             * For production code, the user roles should come from the user profile after authentication.
+//             */
+//            SimpleRBAC rbac = SimpleRBAC.getInstance();
+//            if (headers.containsKey(ROLES)) {
+//                List<String> passRoles = util.split(headers.get(ROLES), ", ");
+//                // check if the roles are allowed
+//                boolean status = rbac.permitted(po.getRoute(), fromList(passRoles));
+//                result.add(String.valueOf(status));
+//            }
+//            return result;
+//        };
 
         Platform platform = Platform.getInstance();
-        platform.registerPrivate("v1.data.read", f, 1);
-        platform.registerPrivate("v1.data.update", f, 1);
-        platform.registerPrivate("v1.data.export", f, 1);
+//        platform.registerPrivate("v1.data.read", f, 1);
+//        platform.registerPrivate("v1.data.update", f, 1);
+//        platform.registerPrivate("v1.data.export", f, 1);
         
         EventEnvelope res = po.request("v1.data.read", 5000, new Kv(ROLES, "MEMBER"));
         assertTrue(res.getBody() instanceof List);
