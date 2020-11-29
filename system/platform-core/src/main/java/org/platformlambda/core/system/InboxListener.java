@@ -28,9 +28,9 @@ import org.slf4j.LoggerFactory;
 public class InboxListener extends AbstractActor {
 //    private static final Logger log = LoggerFactory.getLogger(InboxListener.class);
 
-//    public static Props props() {
+    public static Props props() { return null;
 //        return Props.create(InboxListener.class, () -> new InboxListener());
-//    }
+    }
 
     @Override
     public Receive createReceive() { return null;

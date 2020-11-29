@@ -366,7 +366,6 @@ public class PostOffice {
 //        log.debug("Future event to {} in {} ms", to, interval);
         // schedule the event delivery
         ActorSystem system = Platform.getInstance().getEventSystem();
-
 //        Cancellable task = system.scheduler().scheduleOnce(Duration.create(interval, TimeUnit.MILLISECONDS), () -> {
 //            try {
 //                futureEvents.remove(event.getId());
