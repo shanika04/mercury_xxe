@@ -47,9 +47,9 @@ public class ServiceQueue extends AbstractActor {
     private boolean buffering = true;
     private boolean started = false, stopped = false;
 
-    public static Props props(String route) {
-        return Props.create(ServiceQueue.class, () -> new ServiceQueue(route));
-    }
+//    public static Props props(String route) {
+//        return Props.create(ServiceQueue.class, () -> new ServiceQueue(route));
+//    }
 
     public ServiceQueue(String route) {
         this.route = route;
@@ -58,86 +58,86 @@ public class ServiceQueue extends AbstractActor {
     }
 
     @Override
-    public Receive createReceive() {
-        return receiveBuilder().match(ServiceDef.class, def -> {
-            if (!started) {
-                started = true;
-                ActorSystem system = platform.getEventSystem();
-                int instances = def.getConcurrency();
-                for (int i=0; i < instances; i++) {
-                    int n = i + 1;
-                    ActorRef worker = system.actorOf(WorkerQueue.props(def, getSelf(), n), getSelf().path().name()+"@"+n);
-                    workers.add(worker);
-                }
-                log.info("{} {} with {} instance{} started", def.isPrivate()? "PRIVATE" : "PUBLIC",
-                        route, instances, instances == 1 ? "" : "s");
-            }
-
-        }).match(ReadySignal.class, signal -> {
-            if (!stopped) {
-                log.debug(getSender().path().name() + " is ready");
-                pool.offer(getSender());
-                if (buffering) {
-                    try {
-                        EventEnvelope event = elasticQueue.read();
-                        if (event == null) {
-                            // Close elastic queue when all messages are cleared
-                            buffering = false;
-                            elasticQueue.close();
-                        } else {
-                            // Guarantees that there is an available worker
-                            ActorRef next = pool.poll();
-                            if (next != null) {
-                                next.tell(event, getSelf());
-                            }
-                        }
-                    } catch (IOException e) {
-                        // this should not happen
-                        log.error("Unable to read elastic queue " + elasticQueue.getId(), e);
-                    }
-                }
-            }
-
-        }).match(EventEnvelope.class, event -> {
-            if (!stopped) {
-                if (buffering) {
-                    // Once elastic queue is started, we will continue buffering.
-                    elasticQueue.write(event);
-                } else {
-                    ActorRef next = pool.peek();
-                    if (next == null) {
-                        // Start persistent queue when no workers are available
-                        buffering = true;
-                        elasticQueue.write(event);
-                    } else {
-                        // Guarantees that there is an available worker
-                        next = pool.poll();
-                        if (next != null) {
-                            next.tell(event, getSelf());
-                        }
-                    }
-                }
-            }
-
-        }).match(StopSignal.class, signal -> {
-            if (!stopped) {
-                // stop processing events
-                stopped = true;
-                log.debug("Stopping {} with {} of {} workers in pool", getSelf().path().name(), pool.size(), workers.size());
-                // stop workers
-                for (ActorRef w: workers) {
-                    w.tell(STOP, ActorRef.noSender());
-                }
-                pool.clear();
-                workers = new ArrayList<>();
-                // give a little bit of time to ignore incoming messages that are already queued
-                final ActorSystem system = Platform.getInstance().getEventSystem();
-                system.scheduler().scheduleOnce(Duration.create(SCHEDULED_STOP, TimeUnit.MILLISECONDS), () -> {
-                    getSelf().tell(PoisonPill.getInstance(), ActorRef.noSender());
-                }, system.dispatcher());
-            }
-
-        }).build();
+    public Receive createReceive() { return null;
+//        return receiveBuilder().match(ServiceDef.class, def -> {
+//            if (!started) {
+//                started = true;
+//                ActorSystem system = platform.getEventSystem();
+//                int instances = def.getConcurrency();
+//                for (int i=0; i < instances; i++) {
+//                    int n = i + 1;
+//                    ActorRef worker = system.actorOf(WorkerQueue.props(def, getSelf(), n), getSelf().path().name()+"@"+n);
+//                    workers.add(worker);
+//                }
+//                log.info("{} {} with {} instance{} started", def.isPrivate()? "PRIVATE" : "PUBLIC",
+//                        route, instances, instances == 1 ? "" : "s");
+//            }
+//
+//        }).match(ReadySignal.class, signal -> {
+//            if (!stopped) {
+//                log.debug(getSender().path().name() + " is ready");
+//                pool.offer(getSender());
+//                if (buffering) {
+//                    try {
+//                        EventEnvelope event = elasticQueue.read();
+//                        if (event == null) {
+//                            // Close elastic queue when all messages are cleared
+//                            buffering = false;
+//                            elasticQueue.close();
+//                        } else {
+//                            // Guarantees that there is an available worker
+//                            ActorRef next = pool.poll();
+//                            if (next != null) {
+//                                next.tell(event, getSelf());
+//                            }
+//                        }
+//                    } catch (IOException e) {
+//                        // this should not happen
+//                        log.error("Unable to read elastic queue " + elasticQueue.getId(), e);
+//                    }
+//                }
+//            }
+//
+//        }).match(EventEnvelope.class, event -> {
+//            if (!stopped) {
+//                if (buffering) {
+//                    // Once elastic queue is started, we will continue buffering.
+//                    elasticQueue.write(event);
+//                } else {
+//                    ActorRef next = pool.peek();
+//                    if (next == null) {
+//                        // Start persistent queue when no workers are available
+//                        buffering = true;
+//                        elasticQueue.write(event);
+//                    } else {
+//                        // Guarantees that there is an available worker
+//                        next = pool.poll();
+//                        if (next != null) {
+//                            next.tell(event, getSelf());
+//                        }
+//                    }
+//                }
+//            }
+//
+//        }).match(StopSignal.class, signal -> {
+//            if (!stopped) {
+//                // stop processing events
+//                stopped = true;
+//                log.debug("Stopping {} with {} of {} workers in pool", getSelf().path().name(), pool.size(), workers.size());
+//                // stop workers
+//                for (ActorRef w: workers) {
+//                    w.tell(STOP, ActorRef.noSender());
+//                }
+//                pool.clear();
+//                workers = new ArrayList<>();
+//                // give a little bit of time to ignore incoming messages that are already queued
+//                final ActorSystem system = Platform.getInstance().getEventSystem();
+//                system.scheduler().scheduleOnce(Duration.create(SCHEDULED_STOP, TimeUnit.MILLISECONDS), () -> {
+//                    getSelf().tell(PoisonPill.getInstance(), ActorRef.noSender());
+//                }, system.dispatcher());
+//            }
+//
+//        }).build();
     }
 
     @Override

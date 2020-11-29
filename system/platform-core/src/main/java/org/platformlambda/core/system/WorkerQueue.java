@@ -51,9 +51,9 @@ public class WorkerQueue extends AbstractActor {
     private ActorRef manager;
     private boolean stopped = false;
 
-    public static Props props(ServiceDef def, ActorRef manager, int instance) {
-        return Props.create(WorkerQueue.class, () -> new WorkerQueue(def, manager, instance));
-    }
+//    public static Props props(ServiceDef def, ActorRef manager, int instance) {
+//        return Props.create(WorkerQueue.class, () -> new WorkerQueue(def, manager, instance));
+//    }
 
     public WorkerQueue(ServiceDef def, ActorRef manager, int instance) {
         this.def = def;
@@ -68,58 +68,58 @@ public class WorkerQueue extends AbstractActor {
     }
 
     @Override
-    public Receive createReceive() {
-        return receiveBuilder().match(EventEnvelope.class, event -> {
-            if (!stopped) {
-                final ActorRef self = getSelf();
-                executor.submit(()->{
-                    /*
-                     * Execute function as a future task
-                     */
-                    po.startTracing(def.getRoute(), event.getTraceId(), event.getTracePath());
-                    ProcessStatus ps = processEvent(event);
-                    /*
-                     * Skip trace logging if zero tracing
-                     */
-                    TraceInfo trace = po.stopTracing();
-                    if (tracing && trace != null && trace.id != null && trace.path != null) {
-                        try {
-                            /*
-                             * Send the trace info and processing status to
-                             * distributed tracing for logging.
-                             *
-                             * Since tracing has been stopped, this guarantees
-                             * this will not go into an endless loop.
-                             */
-                            EventEnvelope dt = new EventEnvelope();
-                            dt.setTo(Platform.DISTRIBUTED_TRACING).setBody(trace.annotations);
-                            dt.setHeader("origin", origin);
-                            dt.setHeader("id", trace.id).setHeader("path", trace.path);
-                            dt.setHeader("service", def.getRoute()).setHeader("start", trace.startTime);
-                            dt.setHeader("success", ps.success);
-                            if (ps.success) {
-                                dt.setHeader("exec_time", ps.executionTime);
-                            } else {
-                                dt.setHeader("status", ps.status).setHeader("exception", ps.exception);
-                            }
-                            po.send(dt);
-                        } catch (Exception e) {
-                            log.error("Unable to send distributed tracing - {}", e.getMessage());
-                        }
-                    }
-                    /*
-                     * Send a ready signal to inform the system this worker is ready for next event.
-                     * This guarantee that this future task is executed orderly
-                     */
-                    manager.tell(READY, self);
-                });
-            }
-
-        }).match(StopSignal.class, signal -> {
-            stopped = true;
-            getSelf().tell(PoisonPill.getInstance(), ActorRef.noSender());
-
-        }).build();
+    public Receive createReceive() { return null;
+//        return receiveBuilder().match(EventEnvelope.class, event -> {
+//            if (!stopped) {
+//                final ActorRef self = getSelf();
+//                executor.submit(()->{
+//                    /*
+//                     * Execute function as a future task
+//                     */
+//                    po.startTracing(def.getRoute(), event.getTraceId(), event.getTracePath());
+//                    ProcessStatus ps = processEvent(event);
+//                    /*
+//                     * Skip trace logging if zero tracing
+//                     */
+//                    TraceInfo trace = po.stopTracing();
+//                    if (tracing && trace != null && trace.id != null && trace.path != null) {
+//                        try {
+//                            /*
+//                             * Send the trace info and processing status to
+//                             * distributed tracing for logging.
+//                             *
+//                             * Since tracing has been stopped, this guarantees
+//                             * this will not go into an endless loop.
+//                             */
+//                            EventEnvelope dt = new EventEnvelope();
+//                            dt.setTo(Platform.DISTRIBUTED_TRACING).setBody(trace.annotations);
+//                            dt.setHeader("origin", origin);
+//                            dt.setHeader("id", trace.id).setHeader("path", trace.path);
+//                            dt.setHeader("service", def.getRoute()).setHeader("start", trace.startTime);
+//                            dt.setHeader("success", ps.success);
+//                            if (ps.success) {
+//                                dt.setHeader("exec_time", ps.executionTime);
+//                            } else {
+//                                dt.setHeader("status", ps.status).setHeader("exception", ps.exception);
+//                            }
+//                            po.send(dt);
+//                        } catch (Exception e) {
+//                            log.error("Unable to send distributed tracing - {}", e.getMessage());
+//                        }
+//                    }
+//                    /*
+//                     * Send a ready signal to inform the system this worker is ready for next event.
+//                     * This guarantee that this future task is executed orderly
+//                     */
+//                    manager.tell(READY, self);
+//                });
+//            }
+//
+//        }).match(StopSignal.class, signal -> {
+//            stopped = true;
+//            getSelf().tell(PoisonPill.getInstance(), ActorRef.noSender());
+//
+//        }).build();
     }
 
     private ProcessStatus processEvent(EventEnvelope event) {
