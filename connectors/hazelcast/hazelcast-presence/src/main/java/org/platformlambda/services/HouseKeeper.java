@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 
 public class HouseKeeper implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(HouseKeeper.class);
+//    private static final Logger log = LoggerFactory.getLogger(HouseKeeper.class);
 
     private static final String MANAGER = MainApp.MANAGER;
     private static final String TYPE = "type";

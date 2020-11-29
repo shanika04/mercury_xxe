@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeoutException;
 
 public class ServiceRegistry implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(ServiceRegistry.class);
+//    private static final Logger log = LoggerFactory.getLogger(ServiceRegistry.class);
 
     private static final CryptoApi crypto = new CryptoApi();
     private static final String MANAGER = HazelcastSetup.MANAGER;

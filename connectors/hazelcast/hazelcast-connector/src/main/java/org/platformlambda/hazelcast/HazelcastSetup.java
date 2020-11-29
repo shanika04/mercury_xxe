@@ -41,7 +41,7 @@ import java.util.concurrent.TimeoutException;
 
 @CloudConnector(name="hazelcast")
 public class HazelcastSetup implements CloudSetup {
-    private static final Logger log = LoggerFactory.getLogger(HazelcastSetup.class);
+//    private static final Logger log = LoggerFactory.getLogger(HazelcastSetup.class);
 
     public static final String MANAGER = "hazelcast.manager";
     private static final String TYPE = ServiceDiscovery.TYPE;

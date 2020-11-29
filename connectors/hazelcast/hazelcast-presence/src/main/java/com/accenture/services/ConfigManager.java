@@ -42,7 +42,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class ConfigManager implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(ConfigManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(ConfigManager.class);
 
     private static final CryptoApi crypto = new CryptoApi();
 

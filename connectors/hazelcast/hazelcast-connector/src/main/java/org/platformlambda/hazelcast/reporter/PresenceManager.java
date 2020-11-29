@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 public class PresenceManager extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(PresenceManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(PresenceManager.class);
 
     private static final String CLOUD_CONNECTOR = PostOffice.CLOUD_CONNECTOR;
     private static final String SERVICE_REGISTRY = ServiceDiscovery.SERVICE_REGISTRY;

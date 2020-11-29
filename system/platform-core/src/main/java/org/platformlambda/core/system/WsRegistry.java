@@ -35,7 +35,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class WsRegistry {
-    private static final Logger log = LoggerFactory.getLogger(WsRegistry.class);
+//    private static final Logger log = LoggerFactory.getLogger(WsRegistry.class);
 
     // JSR-356 websocket sessionId to route mapping
     private static final ConcurrentMap<String, String> sessionToRoute = new ConcurrentHashMap<>();
@@ -110,12 +110,12 @@ public class WsRegistry {
             try {
                 platform.release(connection.txPath);
             } catch (Exception e) {
-                log.error("Unable to release {} - {}", connection.txPath, e.getMessage());
+//                log.error("Unable to release {} - {}", connection.txPath, e.getMessage());
             }
             try {
                 platform.release(connection.route);
             } catch (Exception e) {
-                log.error("Unable to release {} - {}", connection.route, e.getMessage());
+//                log.error("Unable to release {} - {}", connection.route, e.getMessage());
             }
             // clean up websocket registry
             if (registry.containsKey(route)) {
@@ -128,7 +128,7 @@ public class WsRegistry {
                     envelope.session = null;
                     envelope.sessionKey = null;
                     envelope.publicKey = null;
-                    log.info("Session-{} ({}, {}) released", sessionId, envelope.route, envelope.txPath);
+//                    log.info("Session-{} ({}, {}) released", sessionId, envelope.route, envelope.txPath);
                 }
             }
         }

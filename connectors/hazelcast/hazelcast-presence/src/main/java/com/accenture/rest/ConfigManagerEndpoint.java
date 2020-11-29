@@ -39,7 +39,7 @@ import java.util.concurrent.TimeoutException;
 @Path("/config")
 @OptionalService("app.config.manager")
 public class ConfigManagerEndpoint {
-    private static final Logger log = LoggerFactory.getLogger(ConfigManagerEndpoint.class);
+//    private static final Logger log = LoggerFactory.getLogger(ConfigManagerEndpoint.class);
 
     private static final String TYPE = "type";
     private static final String ENTITY = "entity";

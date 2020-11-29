@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class TopicKeepAlive extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(TopicKeepAlive.class);
+//    private static final Logger log = LoggerFactory.getLogger(TopicKeepAlive.class);
 
     private static final String MANAGER = HazelcastSetup.MANAGER;
     private static final String TYPE = ServiceDiscovery.TYPE;

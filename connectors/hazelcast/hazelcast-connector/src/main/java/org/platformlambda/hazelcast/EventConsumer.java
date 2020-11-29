@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 public class EventConsumer implements MessageListener<byte[]> {
-    private static final Logger log = LoggerFactory.getLogger(EventConsumer.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventConsumer.class);
 
     @Override
     public void onMessage(Message<byte[]> event) {

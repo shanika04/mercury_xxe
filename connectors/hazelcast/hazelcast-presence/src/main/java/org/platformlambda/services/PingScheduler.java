@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 public class PingScheduler extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(PingScheduler.class);
+//    private static final Logger log = LoggerFactory.getLogger(PingScheduler.class);
 
     private static final String MANAGER = HazelcastSetup.MANAGER;
     private static final long INTERVAL = 15 * 60 * 1000;

@@ -44,7 +44,7 @@ import java.util.concurrent.TimeoutException;
 
 @WebSocketService("presence")
 public class MonitorService implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(MonitorService.class);
+//    private static final Logger log = LoggerFactory.getLogger(MonitorService.class);
 
     private static final String MANAGER = MainApp.MANAGER;
     private static final String CLOUD_CONNECTOR = PostOffice.CLOUD_CONNECTOR;

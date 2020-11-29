@@ -37,7 +37,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class TopicManager implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(TopicManager.class);
+//    private static final Logger log = LoggerFactory.getLogger(TopicManager.class);
     private static final MsgPack msgPack = new MsgPack();
 
     public static final String ORIGIN = "origin";

@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 public class EventProducer implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(EventProducer.class);
+//    private static final Logger log = LoggerFactory.getLogger(EventProducer.class);
 
     private static final CryptoApi crypto = new CryptoApi();
     private static final String TO = "to";

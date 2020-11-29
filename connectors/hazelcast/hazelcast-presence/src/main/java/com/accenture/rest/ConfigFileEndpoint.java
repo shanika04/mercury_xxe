@@ -48,7 +48,7 @@ import java.util.concurrent.TimeoutException;
 @MultipartConfig
 @OptionalService("app.config.manager")
 public class ConfigFileEndpoint extends HttpServlet {
-    private static final Logger log = LoggerFactory.getLogger(ConfigFileEndpoint.class);
+//    private static final Logger log = LoggerFactory.getLogger(ConfigFileEndpoint.class);
 
     private static final String TYPE = "type";
     private static final String TIME = "time";

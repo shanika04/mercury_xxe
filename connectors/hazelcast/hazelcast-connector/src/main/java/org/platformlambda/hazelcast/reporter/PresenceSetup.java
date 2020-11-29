@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 
 @CloudService(name="hazelcast.reporter")
 public class PresenceSetup implements CloudSetup {
-    private static final Logger log = LoggerFactory.getLogger(PresenceSetup.class);
+//    private static final Logger log = LoggerFactory.getLogger(PresenceSetup.class);
 
     private static final String CLOUD_CONNECTOR = PostOffice.CLOUD_CONNECTOR;
     private static final String EVENT_NODE = PostOffice.EVENT_NODE;

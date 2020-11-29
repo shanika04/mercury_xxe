@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 public class PresenceProducer implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(PresenceProducer.class);
+//    private static final Logger log = LoggerFactory.getLogger(PresenceProducer.class);
 
     private HazelcastInstance client;
     private boolean ready = false, abort = false;

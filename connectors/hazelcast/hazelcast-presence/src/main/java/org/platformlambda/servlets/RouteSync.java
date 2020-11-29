@@ -39,7 +39,7 @@ import java.util.concurrent.TimeoutException;
 
 @WebServlet("/route/sync")
 public class RouteSync extends HttpServlet {
-    private static final Logger log = LoggerFactory.getLogger(RouteSync.class);
+//    private static final Logger log = LoggerFactory.getLogger(RouteSync.class);
 
     private static final String MANAGER = MainApp.MANAGER;
     private static final String TYPE = "type";

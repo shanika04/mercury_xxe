@@ -29,7 +29,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class PresenceConnector implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(PresenceConnector.class);
+//    private static final Logger log = LoggerFactory.getLogger(PresenceConnector.class);
 
     private static final String TYPE = "type";
     private static final String JOIN = "join";

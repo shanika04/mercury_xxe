@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class PresenceHandler implements LambdaFunction {
-    private static final Logger log = LoggerFactory.getLogger(PresenceHandler.class);
+//    private static final Logger log = LoggerFactory.getLogger(PresenceHandler.class);
 
     private static final String TYPE = "type";
     private static final String INIT = "init";

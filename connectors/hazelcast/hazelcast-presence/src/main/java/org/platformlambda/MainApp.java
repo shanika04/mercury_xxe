@@ -40,7 +40,7 @@ import java.util.concurrent.TimeoutException;
 
 @MainApplication
 public class MainApp implements EntryPoint {
-    private static final Logger log = LoggerFactory.getLogger(MainApp.class);
+//    private static final Logger log = LoggerFactory.getLogger(MainApp.class);
 
     public static final String MANAGER = HazelcastSetup.MANAGER;
     public static final String PRESENCE_HOUSEKEEPER = "presence.housekeeper";

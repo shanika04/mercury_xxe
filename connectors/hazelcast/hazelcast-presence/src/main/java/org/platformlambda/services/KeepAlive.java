@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class KeepAlive extends Thread {
-    private static final Logger log = LoggerFactory.getLogger(KeepAlive.class);
+//    private static final Logger log = LoggerFactory.getLogger(KeepAlive.class);
 
     private static final long INTERVAL = 20 * 1000;
     private static final String INIT = "init";
